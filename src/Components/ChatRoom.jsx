@@ -6,9 +6,9 @@ import { useLocation } from 'react-router-dom';
 
 export default function ChatRoom() {
 
-  
-  const {state}=useLocation();
-  const chatId= state.chatId
+
+  const { state } = useLocation();
+  const chatId = state.chatId
   console.log('chatId', chatId)
 
 
@@ -19,8 +19,11 @@ export default function ChatRoom() {
       alignItems="center"
       spacing={0}
       sx={{
+        m:'auto',
         borderRadius: 5,
-        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px'
+        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+        width: '70vw',
+        height:'100%'
       }}
     >
 

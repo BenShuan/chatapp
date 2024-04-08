@@ -1,15 +1,18 @@
 
 import './App.css'
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import Main from './Components/Main';
 import { CssBaseline } from '@mui/material';
-import UserContextProvider from './utils/UserContextProvider';
-import { Outlet } from "react-router-dom";
-
-
-
+import UserContextProvider, { UserContext } from './utils/UserContextProvider';
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import NavigationIcon from '@mui/icons-material/Navigation';
+import Fab from '@mui/material/Fab';
+import { Logout } from '@mui/icons-material';
+import { getAuth, signOut } from 'firebase/auth';
+import ColorMode from './Components/ColorMode';
+import Box from '@mui/material/Box';
 
 
 
@@ -21,6 +24,12 @@ export const ColorModeContext = createContext({ toggleColorMode: () => { } });
 function App() {
 
   const [mode, setMode] = useState('light');
+
+  const navigate = useNavigate();
+
+
+const {pathname}=useLocation()
+  
 
   const colorMode = useMemo(
     () => ({
@@ -48,23 +57,48 @@ function App() {
             dark: '#ba000d',
             contrastText: '#000',
           },
+          background: {
+            default: mode === 'dark' ? "#000" : "#fff",
+            paper: mode === 'dark' ? "#222" : "#999"
+          }
         },
       }),
     [mode],
   );
 
+  const logout = () => {
+    const auth = getAuth();
+    auth.signOut();
+    navigate('/')
+
+  }
+
+  console.log('pathname', pathname)
   return (
-      <ColorModeContext.Provider value={colorMode}>
-        <UserContextProvider>
+    <ColorModeContext.Provider value={colorMode}>
+      <UserContextProvider>
 
 
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Outlet/>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
 
-          </ThemeProvider>
-        </UserContextProvider>
-      </ColorModeContext.Provider>
+          <div style={{width:'100%',margin:0,height:'90vh'}}>
+            <div style={{position:'sticky',height:'fit-content',top:0 ,margin: 10, display: 'flex', justifyContent: 'space-between',width:'100%',flexDirection:'row-reverse' }}>
+              <ColorMode />
+              {pathname!=="/" &&
+              <Fab variant="extended" onClick={logout}>
+                <Logout sx={{ mr: 1 }} />
+                Logout
+              </Fab>}
+            </div>
+            <Box sx={{ backgroundColor: 'Background.default' }}>
+              <Outlet />
+            </Box>
+          </div>
+
+        </ThemeProvider>
+      </UserContextProvider>
+    </ColorModeContext.Provider>
   );
 }
 

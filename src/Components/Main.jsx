@@ -23,6 +23,7 @@ export default function Main() {
     <Box
       sx={{ width: '100%', height: '100vh', gap: 20 }}
     >
+      
       <form onSubmit={setChatName}  >
         <TextField label="מייל" type='email' variant="outlined" fullWidth sx={{ m: '10px' }} name='mail' />
         <TextField label="סיסמה" variant="outlined" fullWidth sx={{ m: '10px' }} name='pass' />

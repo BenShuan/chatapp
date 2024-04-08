@@ -10,11 +10,16 @@ import ColorMode from './ColorMode';
 import { Box } from '@mui/material';
 import { useContext } from 'react';
 import { UserContext } from '../utils/UserContextProvider';
+import { ArrowBack } from '@mui/icons-material';
+import { useNavigate } from 'react-router';
+
 
 
 export default function ChatHaeder() {
 
-  const {name} = useContext(UserContext)
+  const {name} = useContext(UserContext);
+  
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ backgroundColor: 'primary.light', borderTopLeftRadius: 'inherit', borderTopRightRadius: 'inherit', width: '100%' }}>
@@ -24,13 +29,13 @@ export default function ChatHaeder() {
           edge="start"
           aria-label="user pic"
           sx={{ mr: 2 }}
+          onClick={()=>navigate(-1)}
         >
-          <AccountCircle />
+          <ArrowBack />
         </IconButton>
         <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
           {name}
         </Typography>
-        <ColorMode />
       </Toolbar>
     </Box>
   )

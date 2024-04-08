@@ -4,6 +4,7 @@ import React, { Suspense, useContext, useEffect, useMemo, useState } from "react
 import { db } from "./firebasae";
 import { onValue, ref, set, update } from "firebase/database";
 import { UserContext } from "./UserContextProvider";
+import { addDoc } from "firebase/firestore";
 
 
 function useFireBase(docName) {
@@ -45,7 +46,7 @@ function useFireBase(docName) {
 
   const AddChatId = (user1, user2) => {
 
-    let key = objList.length
+    let key = Date.now()
 
     let newId = {
       [key]: {
@@ -53,7 +54,13 @@ function useFireBase(docName) {
         user2
       }
     }
-    return update(query, newId)
+     update(query, newId).then(() => {
+      console.log('succses')
+      
+    }).catch((error) => {
+      console.log(error)
+    })
+    return key.toString()
   }
 
 

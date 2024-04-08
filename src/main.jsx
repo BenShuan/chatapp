@@ -6,7 +6,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { fallbackAll } from './utils/fallback.jsx';
+import Fallback from './utils/fallback.jsx';
 
 
 const router = createBrowserRouter([
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
           let Main = await import("./Components/Main.jsx");
           return { Component: Main.default };
         },
-        hydrateFallbackElement: fallbackAll
+        hydrateFallback: <Fallback/>,
       },{
         path: "/register",
         // element: <Main />,
@@ -29,7 +29,8 @@ const router = createBrowserRouter([
           let Register = await import("./Components/Register.jsx");
           return { Component: Register.default };
         },
-        hydrateFallbackElement: fallbackAll
+        hydrateFallback: <Fallback/>,
+
       },
       {
         path: "/chatslist",
@@ -38,7 +39,8 @@ const router = createBrowserRouter([
           let ChatsList = await import("./Components/ChatsList.jsx");
           return { Component: ChatsList.default };
         },
-        hydrateFallbackElement: fallbackAll
+        hydrateFallback: <Fallback/>,
+
       },
       {
         path: "/chat",
@@ -47,7 +49,8 @@ const router = createBrowserRouter([
           let ChatRoom = await import("./Components/ChatRoom.jsx");
           return { Component: ChatRoom.default };
         },
-        hydrateFallbackElement: fallbackAll
+        hydrateFallback: <Fallback/>,
+
 
 
       }
@@ -62,6 +65,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    
     <RouterProvider router={router} />
+    
   </React.StrictMode>,
 )
