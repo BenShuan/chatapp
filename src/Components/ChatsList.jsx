@@ -10,12 +10,13 @@ import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router';
 import useFireBase from '../utils/useFireBase';
 import { ThemeContext } from '@emotion/react';
+import ChatHaeder from './ChatHaeder';
+import { UsbTwoTone } from '@mui/icons-material';
 
 
 
 export default function ChatsList() {
-  const { objList, user } = useContext(UserContext);
-  const [uEmail, setUEmail] = useState(null)
+  const { setName,objList, user } = useContext(UserContext);
 
 const theme = useContext(ThemeContext)
   
@@ -23,26 +24,32 @@ const theme = useContext(ThemeContext)
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setName('אנשי קשר')
+  }, [])
+  
+
   const goToChat = (chatWith) => {
     var chatId = null;
     idsList.find((id) => {
-
       for (const key in id) {
-        if ((id[key].user1 === user.email && id[key].user2 === chatWith) || (id[key].user2 === user.email && id[key].user1 === chatWith)) {
+        if ((id[key].user1.email === user.email && id[key].user2.email === chatWith.email) || (id[key].user2.email === user.email && id[key].user1.email === chatWith.email)) {
           chatId = key;
+        
         }
       }
 
     }
     )
+
     if (!chatId) {
-      chatId = AddChatId(chatWith, user.email)
+      chatId = AddChatId(chatWith, {email:user.email,name:user.displayName})
       console.log('chaaatid', chatId)
-      navigate('/chat', { state: { chatId } })
+      navigate('/chat', { state: { chatId,chatWithName:chatWith.name  } })
 
 
     } else {
-      navigate('/chat', { state: { chatId } })
+      navigate('/chat', { state: { chatId,chatWithName:chatWith.name } })
     }
 
 
@@ -54,13 +61,11 @@ const theme = useContext(ThemeContext)
 
     if (filteredList.length > 0) {
       strList = filteredList.map((u, index) => {
-
         for (const key in u) {
-
           return <ListItem
             key={u[key].email}
             disableGutters
-            onClick={() => goToChat(u[key].email)}
+            onClick={() => goToChat(u[key])}
             sx={[{
               m:3,
               p: '5px 10px',
@@ -105,6 +110,7 @@ const theme = useContext(ThemeContext)
 
   return (
     <Box sx={{width:'100%', justifyContent:'center'}}>
+
       <List sx={{margin:'auto', maxWidth: 360, bgcolor: 'background.default' }} >
         {renderList()}
       </List>

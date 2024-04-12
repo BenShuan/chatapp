@@ -1,5 +1,5 @@
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import useFireBase from '../utils/useFireBase';
 import Message from './Message';
 import { UserContext } from '../utils/UserContextProvider';
@@ -31,10 +31,12 @@ export default function Messages({chatId}) {
     return strList;
 
   }
-
+  useEffect(() => {
+    document.querySelector('.messages').scrollTop = document.querySelector('.messages').scrollHeight
+  }, [messages])
 
   return (
-    <div style={{ width: '100%',height:'70vh',  backgroundColor: theme.palette.background.paper, display: 'flex', flexDirection: 'column', overflow: 'auto', gap: 10 }}>
+    <div className='messages' style={{ width: '100%',height: '100%', backgroundColor: theme.palette.background.paper, display: 'flex', flexDirection: 'column', overflow: 'auto', gap: 10,paddingBottom:10}}>
       {renderList()}
       <dialog open={imgToShow.show} style={{position:'absolute',top:10, padding: 0, margin: 'auto', borderRadius: 20,width:'100%',maxWidth:'70vw', background: 'none', maxHeight:'90vh' }}>
         <img src={imgToShow.message} style={{ width: '100%', borderRadius: 'inherit', display: 'block'}} />

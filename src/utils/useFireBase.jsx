@@ -29,6 +29,7 @@ function useFireBase(docName) {
   const AddObject = (mess, name) => {
 
     let key = new Date();
+    debugger
     let newMess = {
       [key]: {
         [name]: mess

@@ -13,6 +13,7 @@ import { Logout } from '@mui/icons-material';
 import { getAuth, signOut } from 'firebase/auth';
 import ColorMode from './Components/ColorMode';
 import Box from '@mui/material/Box';
+import ChatHaeder from './Components/ChatHaeder';
 
 
 
@@ -28,8 +29,7 @@ function App() {
   const navigate = useNavigate();
 
 
-const {pathname}=useLocation()
-  
+
 
   const colorMode = useMemo(
     () => ({
@@ -66,14 +66,8 @@ const {pathname}=useLocation()
     [mode],
   );
 
-  const logout = () => {
-    const auth = getAuth();
-    auth.signOut();
-    navigate('/')
 
-  }
 
-  console.log('pathname', pathname)
   return (
     <ColorModeContext.Provider value={colorMode}>
       <UserContextProvider>
@@ -82,18 +76,10 @@ const {pathname}=useLocation()
         <ThemeProvider theme={theme}>
           <CssBaseline />
 
-          <div style={{width:'100%',margin:0,height:'90vh'}}>
-            <div style={{position:'sticky',height:'fit-content',top:0 ,margin: 10, display: 'flex', justifyContent: 'space-between',width:'100%',flexDirection:'row-reverse' }}>
-              <ColorMode />
-              {pathname!=="/" &&
-              <Fab variant="extended" onClick={logout}>
-                <Logout sx={{ mr: 1 }} />
-                Logout
-              </Fab>}
-            </div>
-            <Box sx={{ backgroundColor: 'Background.default' }}>
+          <div style={{ width: '100%', height: '90vh' }}>
+            <ChatHaeder/>
+            
               <Outlet />
-            </Box>
           </div>
 
         </ThemeProvider>

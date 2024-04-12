@@ -1,14 +1,19 @@
 
-import { lazy, useContext } from 'react';
+import { lazy, useContext,useEffect } from 'react';
 import { UserContext } from '../utils/UserContextProvider';
 import { Box, Button, TextField } from '@mui/material';
+import ChatHaeder from './ChatHaeder';
 
 
 
 
 export default function Main() {
-  const { name, setName,Register } = useContext(UserContext);
+  const { setName,Register } = useContext(UserContext);
 
+  useEffect(() => {
+    setName('הרשמה')
+  }, [])
+  
 
   const setChatName = (e) => {
     e.preventDefault();
@@ -19,13 +24,12 @@ export default function Main() {
 
 
   return (
-    <Box
-      sx={{ width: '100%', height: '100vh', gap: 20 }}
-    >
-      <form onSubmit={setChatName}  >
-        <TextField label="מייל" type='email' variant="outlined" fullWidth sx={{ m: '10px' }} name='mail' />
-        <TextField label="סיסמה" variant="outlined" fullWidth sx={{ m: '10px' }} name='pass' />
-        <TextField label="שם" variant="outlined" fullWidth sx={{ m: '10px' }} name='uName' />
+    <Box>
+
+      <form onSubmit={setChatName} className="flex-center-all" style={{flexDirection:'column'}}  >
+        <TextField label="מייל" type='email' variant="outlined"  name='mail' />
+        <TextField label="סיסמה" variant="outlined"  name='pass' />
+        <TextField label="שם" variant="outlined" name='uName' />
         {/* <Link to={} /> */}
         <Button type='submit' variant="contained" >כניסה</Button>
       </form>

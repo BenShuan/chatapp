@@ -43,7 +43,7 @@ const router = createHashRouter ([
 
       },
       {
-        path: "/chat",
+        path: "/chat/",
         // element: <ChatRoom />,
         async lazy() {
           let ChatRoom = await import("./Components/ChatRoom.jsx");

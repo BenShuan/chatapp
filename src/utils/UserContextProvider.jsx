@@ -1,4 +1,4 @@
-import { browserLocalPersistence, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { browserLocalPersistence, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import React, { createContext, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router';
 import useFireBase from './useFireBase';
@@ -22,9 +22,8 @@ export default function UserContextProvider({ children }) {
       if (user1) {
         setUser(user1);
         getName(user1.email)
-        console.log('user1', user1)
       } else {
-        setName(null)
+        // setName(null)
         console.log('user', user1)
       }
     })
@@ -34,13 +33,6 @@ export default function UserContextProvider({ children }) {
 
 
   const [objList, setObjList, , AddUser] = useFireBase('names');
-
-  useEffect(() => {
-    name !== null && navigate("/chatslist");
-    console.log('name', name)
-  }, [name])
-
-
 
   const getName = (mail) => {
     for (const num in objList) {
@@ -56,8 +48,7 @@ export default function UserContextProvider({ children }) {
       signInWithEmailAndPassword(auth, mail, pass)
         .then((userCredential) => {
           // Signed in
-          getName(mail);
-
+          navigate("/chatslist")
         }))
       .catch((error) => {
         const errorCode = error.code;
@@ -68,13 +59,14 @@ export default function UserContextProvider({ children }) {
   }
 
 
-  const Register = (email, password, name) => {
+  const Register = (email, password, displayName) => {
     // Create a new user with email and password using firebase
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
-
-        AddUser(email, name)
-        navigate('/');
+          updateProfile(auth.currentUser, {
+            displayName}).then(()=>navigate('/'))
+        AddUser(email, displayName)
+        
         console.log(res.user)
       })
       .catch(err => setError(err.message))

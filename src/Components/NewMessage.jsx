@@ -28,7 +28,7 @@ const VisuallyHiddenInput = styled('input')({
 
 export default function NewMessage({chatId}) {
 
-  const {name} = useContext(UserContext)
+  const {user} = useContext(UserContext)
 
   const [, , AddMessage] = useFireBase(chatId);
 
@@ -58,14 +58,14 @@ export default function NewMessage({chatId}) {
           reader.readAsDataURL(compressedResult)
 
           reader.onloadend = (eFile) => {
-            AddMessage(eFile.target.result,name);
+            AddMessage(eFile.target.result,user.displayName);
           }
         },
       });
     }
 
     if (mess !== "") {
-      AddMessage(mess,name);
+      AddMessage(mess,user.displayName);
     }
 
 
@@ -86,7 +86,7 @@ export default function NewMessage({chatId}) {
         borderRadius: 'inherit',
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
-        height: '4rem'
+        height: '80px'
       }}
       onSubmit={AddNewMessage}
     >
